@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Accident Hotspots Map</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Load our JS first so it defines initMap -->
+  <script defer src="script.js"></script>
+  <!-- Chart.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Maps -->
+  <script defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRaLSGVpe3qNvSQ0j9vEnOUNgGC5UMfX4&callback=initMap">
+  </script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="box">
+      <h3>Filters</h3>
+      <div class="form-group">
+        <label for="year">Year</label>
+        <select id="year"></select>
+      </div>
+      <div class="form-group">
+        <label for="weather_code">Weather Condition</label>
+        <select id="weather_code">
+          <option value="">All</option>
+          <option value="0">Fine without high winds</option>
+          <option value="1">Fine with high winds</option>
+          <option value="2">Raining with high winds</option>
+          <option value="3">Fog or mist</option>
+          <option value="4">Snowing with high winds</option>
+          <option value="5">Raining</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="road_class_code">Road Class</label>
+        <select id="road_class_code">
+          <option value="">All</option>
+          <option value="0">Unclassified</option>
+          <option value="1">A</option>
+          <option value="2">B</option>
+          <option value="3">Motorway</option>
+        </select>
+      </div>
+      <button onclick="loadHotspots()">Filter</button>
+    </div>
+
+    <div class="box">
+      <h3>Location Hotspots Map</h3>
+      <div id="map"></div>
+    </div>
+
+    <div class="box severity-box">
+      <div>
+        <h3>Accident Details</h3>
+        <p id="accidentCount">Click a hotspot to see details</p>
+        <p id="modelPrediction">Prediction: <em>–</em></p>
+        <p id="conditions"><em>Conditions will appear here</em></p>
+      </div>
+      <div class="chart-container">
+        <canvas id="severityChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="roadChart"></canvas>
+      </div>
+
+      <div class="definitions">
+        <h4>Severity Definitions</h4>
+        <ul>
+          <li><strong>Slight</strong> corresponds to those accidents where the recorded injury severities were all in the mildest category.</li>
+          <li><strong>Serious</strong> captures cases where at least one casualty had a more severe injury.</li>
+          <li><strong>Fatal</strong> means there was at least one death in that accident.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
