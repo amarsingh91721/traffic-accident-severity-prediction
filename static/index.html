@@ -46,6 +46,17 @@
           <option value="3">Motorway</option>
         </select>
       </div>
+      <details class="area-filter">
+        <summary>Filter by map area</summary>
+        <p class="help-text">Enter a bounding box. Use decimal coordinates, such as a city, county, state, or country boundary.</p>
+        <div class="coordinate-grid">
+          <label>South <input id="south" type="number" step="any" placeholder="min latitude"></label>
+          <label>North <input id="north" type="number" step="any" placeholder="max latitude"></label>
+          <label>West <input id="west" type="number" step="any" placeholder="min longitude"></label>
+          <label>East <input id="east" type="number" step="any" placeholder="max longitude"></label>
+        </div>
+        <button type="button" class="secondary-button" onclick="useVisibleMapArea()">Use visible map area</button>
+      </details>
       <button onclick="loadHotspots()">Filter</button>
     </div>
 

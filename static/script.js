@@ -20,9 +20,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 // 1) Google Maps init
 window.initMap = function() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 37.0902, lng: -95.7129 }, zoom: 4
+    center: { lat: 53.7, lng: -1.9 }, zoom: 8
   });
 };
+
+function areaParams() {
+  const params = new URLSearchParams();
+  ['south', 'north', 'west', 'east'].forEach(id => {
+    const value = document.getElementById(id).value.trim();
+    if (value) params.set(id, value);
+  });
+  return params;
+}
+
+function useVisibleMapArea() {
+  if (!map) return;
+  const bounds = map.getBounds();
+  if (!bounds) return;
+  const southWest = bounds.getSouthWest();
+  const northEast = bounds.getNorthEast();
+  document.getElementById('south').value = southWest.lat().toFixed(5);
+  document.getElementById('north').value = northEast.lat().toFixed(5);
+  document.getElementById('west').value = southWest.lng().toFixed(5);
+  document.getElementById('east').value = northEast.lng().toFixed(5);
+}
 
 // 2) clear markers
 function clearMarkers() {
@@ -36,13 +57,19 @@ async function loadHotspots() {
   const year = document.getElementById('year').value;
   const wc   = document.getElementById('weather_code').value;
   const rc   = document.getElementById('road_class_code').value;
+  const area = areaParams();
+  const query = new URLSearchParams({ year, weather_code: wc, road_class_code: rc });
+  area.forEach((value, key) => query.set(key, value));
 
   const pts = (await fetch(
-    `/hotspots?year=${year}&weather_code=${wc}&road_class_code=${rc}`
+    `/hotspots?${query.toString()}`
   ).then(r => r.json()))
     .filter(p => p.lat && p.lng);
 
-  if (!pts.length) { alert('No hotspots found.'); return; }
+  if (!pts.length) {
+    alert('No accidents match these filters. Try a larger map area or select All.');
+    return;
+  }
 
   const bounds = new google.maps.LatLngBounds();
   pts.forEach(p => {

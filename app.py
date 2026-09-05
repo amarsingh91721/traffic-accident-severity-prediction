@@ -89,12 +89,24 @@ def hotspots():
     year = request.args.get('year', type=int)
     wc   = request.args.get('weather_code', type=int)
     rc   = request.args.get('road_class_code', type=int)
+    south = request.args.get('south', type=float)
+    north = request.args.get('north', type=float)
+    west  = request.args.get('west', type=float)
+    east  = request.args.get('east', type=float)
     if year is not None:
         sub = sub[sub['Accident Date'].dt.year == year]
     if wc is not None:
         sub = sub[sub['Weather Conditions_code'] == wc]
     if rc is not None:
         sub = sub[sub['1st Road Class_code'] == rc]
+    if south is not None:
+        sub = sub[sub['lat'] >= south]
+    if north is not None:
+        sub = sub[sub['lat'] <= north]
+    if west is not None:
+        sub = sub[sub['lng'] >= west]
+    if east is not None:
+        sub = sub[sub['lng'] <= east]
     pts = sub[['lat','lng']].dropna().to_dict(orient='records')
     return jsonify(pts)
 

@@ -60,6 +60,42 @@ button {
   cursor:pointer;
 }
 button:hover { background:#43a047; }
+.area-filter {
+  margin: 14px 0;
+  color: var(--text-secondary);
+}
+.area-filter summary {
+  cursor: pointer;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.help-text {
+  margin: 8px 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.coordinate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.coordinate-grid label {
+  font-size: 12px;
+}
+.coordinate-grid input {
+  width: 100%;
+  margin-top: 4px;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.secondary-button {
+  margin-top: 10px;
+  padding: 8px;
+  background: #607d8b;
+  font-size: 13px;
+}
+.secondary-button:hover { background: #546e7a; }
 
 /* Map */
 #map {
